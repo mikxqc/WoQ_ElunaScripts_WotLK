@@ -1,3 +1,4 @@
+--Don't use without a triggerHook logic applied to Eluna GiveXP to prevent xp loop.
 
 local function pGainExp(event, player, amount, victim)
     local victim = null
