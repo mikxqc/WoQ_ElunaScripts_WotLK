@@ -1,5 +1,17 @@
 --Don't use without a triggerHook logic applied to Eluna GiveXP to prevent xp loop.
 
+local function pLogin(event, player)
+	local pAccountID = player:GetAccountId()
+	local SQL_pMaxLevel = "SELECT COUNT(*) FROM characters WHERE level=80 AND account="..pAccountID..";"
+	
+	local QUERY_MaxLevelCount = CharDBQuery(SQL_pMaxLevel)
+	local pMaxLevel = QUERY_MaxLevelCount:GetUInt32(0)
+	
+	if(pMaxLevel >= 1) then
+		player:SendBroadcastMessage("[WoQ] Bonus d'expérience activé. "..pMaxLevel.." personnage(s) niveau 80.")
+	end
+end
+
 local function pGainExp(event, player, amount, victim)
     local victim = null
 	local pAccountID = player:GetAccountId()
@@ -41,4 +53,6 @@ local function pGainExp(event, player, amount, victim)
 	end
 end
 
+RegisterPlayerEvent(3, pLogin)
 RegisterPlayerEvent(12, pGainExp)
+
